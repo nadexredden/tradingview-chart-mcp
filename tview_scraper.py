@@ -28,6 +28,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 load_dotenv()
@@ -250,10 +251,10 @@ class TradingViewScraper:
         }
         chrome_options.add_experimental_option("prefs", prefs)
 
-        # Use Selenium 4's built-in driver management (no need for webdriver-manager)
+        # Use webdriver-manager for automatic ChromeDriver setup
         try:
-            # ChromeService() without path uses Selenium Manager to auto-download driver
-            service = ChromeService()
+            self.logger.info("Using webdriver-manager for automatic ChromeDriver setup...")
+            service = ChromeService(ChromeDriverManager().install())
             self.driver = webdriver.Chrome(
                 service=service,
                 options=chrome_options,
